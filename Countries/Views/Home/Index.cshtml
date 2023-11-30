@@ -1,0 +1,79 @@
+﻿@model Countries.ViewModels.OlympicGamesViewModel
+
+<h2>Olympic Games</h2>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <p>
+        @Html.LabelFor(model => model.Game, "Filter by Game:")
+        @Html.DropDownListFor(model => model.Game, new List<SelectListItem>
+    {
+    new SelectListItem { Text = "Winter Olympics", Value = "Winter Olympics" },
+    new SelectListItem { Text = "Summer Olympics", Value = "Summer Olympics" },
+    new SelectListItem { Text = "Paralympics", Value = "Paralympics" },
+    new SelectListItem { Text = "Youth Olympic Games", Value = "Youth Olympic Games" }
+    }, "Select a Game", new { id = "game" })
+    </p>
+
+    <p>
+        @Html.LabelFor(model => model.Category, "Filter by Category:")
+        @Html.DropDownListFor(model => model.Category, new List<SelectListItem>
+    {
+    new SelectListItem { Text = "Curling", Value = "Curling/Indoor" },
+    new SelectListItem { Text = "Bobsleigh", Value = "Bobsleigh/Outdoor" },
+    new SelectListItem { Text = "Diving", Value = "Diving/Indoor" },
+    new SelectListItem { Text = "Road Cycling", Value = "Road Cycling/Outdoor" },
+    new SelectListItem { Text = "Archery", Value = "Archery/Indoor" },
+    new SelectListItem { Text = "Canoe Sprint", Value = "Canoe Spring/Outdoor" },
+    new SelectListItem { Text = "Breakdancing", Value = "Breakdancing/Indoor" },
+    new SelectListItem { Text = "Skateboarding", Value = "Skateboarding/Outdoor" }
+    }, "Select a Category", new { id = "category" })
+    </p>
+
+    <input type="submit" value="Filter" />
+}
+
+<h3>Game: @Model.Game</h3>
+<h3>Category: @Model.Category</h3>
+
+<!-- Include the shared partial view -->
+@Html.Partial("_CountryTable", Model.Countries.OrderBy(c => c.Name))
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+    </script>
+    <script>
+        // Define the addToFavorites function
+        function addToFavorites(name) {
+            // Make an AJAX request to add the country to favorites
+            $.ajax({
+                type: "POST",
+                url: "/Favorites/AddToFavorite",
+                data: { name: name },
+                success: function (result) {
+                    alert('Added to Favorites: ' + name);
+                },
+                error: function (error) {
+                    alert('Error adding to Favorites: ' + name);
+                }
+            });
+        }
+
+        // Attach the addToFavorites function to the button click event
+        $(document).ready(function () {
+            $('button.addToFavorites').on('click', function () {
+                // Get the country name from the data attribute
+                var countryName = $(this).data('countryname');
+
+                // Call the addToFavorites function with the country name
+                addToFavorites(countryName);
+            });
+        });
+    </script>
+}
+
+}

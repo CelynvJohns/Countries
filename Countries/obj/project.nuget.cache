@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "DlfudVfoELhxEei5JUQAmAkwtcgcBE/JfLiCdJm+t26IiztVRePb3fzg8kKCAP14hTHV0ECCs5V/4G5/nrFoUw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Natti\\source\\C#\\Countries\\Countries\\Countries.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Natti\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

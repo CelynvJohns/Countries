@@ -1,0 +1,55 @@
+﻿@model List<Country>
+
+<h2>Countries by Category</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Flag</th>
+            <th>Country</th>
+            <th>Game</th>
+            <th>Category</th>
+            <th>Actions</th> <!-- Added column for actions -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var country in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Flags/@(country.Name).jpg" alt="@country.Name" title="Country: @country.Name, Game: @country.Game, Category: @country.Category" style="width: 500px; height: 300px" />
+                </td>
+                <td>@country.Name</td>
+                <td>@country.Game</td>
+                <td>@country.Category</td>
+                <td>
+                    <button onclick="addToFavorites('@country.Name')">Add to Favorites</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    if (typeof jQuery == 'undefined') {
+        console.error('jQuery is not loaded.');
+    } else {
+        console.log('jQuery is loaded.');
+    }
+    function addToFavorites(name) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/AddToFavorite",
+            data: { name: name },
+            success: function (result) {
+                console.log(result);  // Log the response to the console
+                alert('Added to Favorites: ' + name);
+            },
+            error: function (error) {
+                console.error(error);  // Log the error to the console
+                alert('Error adding to Favorites: ' + name);
+            }
+        });
+    }
+</script>
+

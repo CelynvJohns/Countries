@@ -1,0 +1,62 @@
+﻿<!-- _CountryTable.cshtml -->
+@model IEnumerable<Country>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Flag</th>
+            <th>Country</th>
+            <th>Game</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var country in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/Flags/@(country.Name).jpg" alt="@country.Name" title="Country: @country.Name, Game: @country.Game, Category: @country.Category" style="width: 100px; height: 60px" />
+                </td>
+                <td>@country.Name</td>
+                <td>@country.Game</td>
+                <td>@country.Category</td>
+                <td>
+                    <button onclick="addToFavorites('@country.Name')">Add to Favorites</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        // Define the addToFavorites function
+        function addToFavorites(name) {
+            // Make an AJAX request to add the country to favorites
+            $.ajax({
+                type: "POST",
+                url: "/Favorites/AddToFavorite",
+                data: { name: name },
+                success: function (result) {
+                    alert('Added to Favorites: ' + name);
+                },
+                error: function (error) {
+                    alert('Error adding to Favorites: ' + name);
+                }
+            });
+        }
+
+        // Attach the addToFavorites function to the button click event
+        $(document).ready(function () {
+            $('button.addToFavorites').on('click', function () {
+                // Get the country name from the data attribute
+                var countryName = $(this).data('countryname');
+
+                // Call the addToFavorites function with the country name
+                addToFavorites(countryName);
+            });
+        });
+    </script>
+}
+

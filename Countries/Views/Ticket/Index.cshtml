@@ -1,0 +1,97 @@
+﻿<!-- index.cshtml -->
+@model Countries.Models.Ticket
+
+@{
+    ViewData["Title"] = "Ticketing System";
+}
+
+<h2>Ticketing System</h2>
+
+<div>
+    <label for="ticketName">Name:</label>
+    <input type="text" id="ticketName" />
+</div>
+
+<div>
+    <label for="ticketDescription">Description:</label>
+    <textarea id="ticketDescription"></textarea>
+</div>
+
+<div>
+    <label for="sprintNumber">Sprint Number:</label>
+    <input type="number" id="sprintNumber" />
+</div>
+
+<div>
+    <label for="pointValue">Point Value:</label>
+    <input type="number" id="pointValue" />
+</div>
+
+<button onclick="createTicket()">Create Ticket</button>
+
+<div id="ticketList">
+    <!-- Ticket list will be displayed here -->
+</div>
+
+<script>
+    // Function to create a new ticket
+    function createTicket() {
+        var ticket = {
+            Name: document.getElementById('ticketName').value,
+            Description: document.getElementById('ticketDescription').value,
+            SprintNumber: document.getElementById('sprintNumber').value,
+            PointValue: document.getElementById('pointValue').value
+        };
+
+        // Make an AJAX request to create a new ticket
+        $.ajax({
+            type: "POST",
+            url: "/Ticket",
+            contentType: "application/json",
+            data: JSON.stringify(ticket),
+            success: function (result) {
+                alert('Ticket created successfully!');
+                loadTickets(); // Reload the ticket list
+            },
+            error: function (error) {
+                alert('Error creating ticket: ' + error.responseJSON.title);
+            }
+        });
+    }
+
+    // Function to load tickets
+    function loadTickets() {
+        // Make an AJAX request to get the list of tickets
+        $.ajax({
+            type: "GET",
+            url: "/Ticket",
+            success: function (tickets) {
+                displayTickets(tickets);
+            },
+            error: function (error) {
+                alert('Error loading tickets: ' + error.statusText);
+            }
+        });
+    }
+
+    // Function to display tickets
+    function displayTickets(tickets) {
+        var ticketList = document.getElementById('ticketList');
+        ticketList.innerHTML = ''; // Clear existing content
+
+        tickets.forEach(function (ticket) {
+            var ticketItem = document.createElement('div');
+            ticketItem.innerHTML = `
+                    <p><strong>${ticket.Name}</strong></p>
+                    <p>${ticket.Description}</p>
+                    <p>Sprint: ${ticket.SprintNumber}, Points: ${ticket.PointValue}</p>
+                    <p>Status: ${ticket.Status}</p> <!-- Display enum as string -->
+                    <hr />
+                `;
+            ticketList.appendChild(ticketItem);
+        });
+    }
+
+    // Initial load of tickets
+    loadTickets();
+</script>
