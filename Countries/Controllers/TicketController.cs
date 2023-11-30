@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net.Sockets;
 
-namespace Countries.Controllers // Corrected namespace
+namespace Countries.Controllers 
 {
     public class TicketController : Controller
     {
@@ -19,7 +19,7 @@ namespace Countries.Controllers // Corrected namespace
                 ticket.Id = tickets.Count + 1;
 
                 // Set the initial status to 'todo'
-                ticket.Status = Ticket.TicketStatus.Todo; // Assuming TicketStatus is an enum
+                ticket.Status = Ticket.TicketStatus.Todo; 
 
                 // Add the ticket to the list
                 tickets.Add(ticket);

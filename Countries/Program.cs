@@ -42,6 +42,14 @@ app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
+    // Ticket Controller
+    endpoints.MapControllerRoute(
+        name: "Ticket",
+        pattern: "Ticket/{action=Index}/{id?}",
+        defaults: new { controller = "Ticket", action = "Index" }
+    );
+
+    // Other Controllers
     endpoints.MapControllerRoute(
         name: "Category",
         pattern: "Home/Category",
@@ -55,11 +63,9 @@ app.UseEndpoints(endpoints =>
     );
 
     endpoints.MapControllerRoute(
-    name: "Ticket",
-    pattern: "Ticket/{action=Index}/{id?}",
-    defaults: new { controller = "Ticket" }
-);
-
+        name: "Favorites",
+        pattern: "Favorites/{action=Index}/{id?}",
+        defaults: new { controller = "Favorites", action = "Index" });
 
     // The default route
     endpoints.MapControllerRoute(
@@ -67,5 +73,6 @@ app.UseEndpoints(endpoints =>
         pattern: "{controller=Home}/{action=Index}/{id?}"
     );
 });
+
 
 app.Run();
